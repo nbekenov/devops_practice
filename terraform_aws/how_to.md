@@ -6,7 +6,11 @@
 >
 > terraform fmt
 >
-> terraform apply
+> terraform plan -out out.terraform
+>
+> terraform apply out.terraform
+>
+> terraform apply 
 >
 > terraform taint resource.id
 >
