@@ -6,9 +6,9 @@ variable "AWS_PROFILE_NAME" {
 }
 
 variable "PATH_TO_PRIVATE_KEY" {
-  default = "mykey"
+  default = "terraformkey"
 }
 
 variable "PATH_TO_PUBLIC_KEY" {
-  default = "mykey.pub"
+  default = "terraformkey.pub"
 }
