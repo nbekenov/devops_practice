@@ -62,7 +62,7 @@ resource "aws_route_table" "sas_dev-rt" {
   }
 }
 
-# route subnet association
+# route public subnets association
 resource "aws_route_table_association" "sas-dev-public-1-a" {
   subnet_id      = aws_subnet.sas-dev-publicsub-1.id
   route_table_id = aws_route_table.sas_dev-rt.id
