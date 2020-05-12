@@ -39,7 +39,7 @@ resource "aws_subnet" "sas-dev-publicsub-2" {
   }
 }
 
-# internet GW
+# internet gateway
 resource "aws_internet_gateway" "sas_dev-gw" {
   vpc_id = aws_vpc.sas_dev.id
 
