@@ -1,5 +1,5 @@
 resource "aws_directory_service_directory" "sasdev_ad" {
-  name     = "cxloyaltydata.com"
+  name     = var.domain_name
   password = var.simple_ad_pass
   size     = "Small"
   type     = "SimpleAD"
@@ -10,10 +10,14 @@ resource "aws_directory_service_directory" "sasdev_ad" {
   }
 
   tags = {
-    Name = "sasdev_ad"
+    Name = "sas-uat-ad"
+  }
+
+  provisioner "local-exec" {
+    command = "echo ${aws_directory_service_directory.sasdev_ad.dns_ip_addresses} >> dns_ip_addresses.txt"
   }
 }
 
 output "dns_ip_addresses" {
-  value = aws_directory_service_directory.sasdev_ad.dns_ip_addresses
+  value = [sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[0], sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[1], "AmazonProvidedDNS"]
 }
