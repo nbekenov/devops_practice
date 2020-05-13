@@ -27,11 +27,10 @@ variable "INSTANCE_USERNAME" {
 }
 
 variable "dhcp_domain_name" {
-  type    = string
-  default = "cxloyaltydata.com ec2.internal"
 }
 
 variable "simple_ad_pass" {
-  type = string
-  default = "...."
+}
+
+variable "domain_name" {
 }

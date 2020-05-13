@@ -90,7 +90,7 @@ resource "aws_vpc_dhcp_options" "sasdev_dhcp" {
   domain_name_servers = aws_directory_service_directory.sasdev_ad.dns_ip_addresses
 
   tags = {
-    Name = "cxloyaltydata.com"
+    Name = var.domain_name
   }
 
 }
