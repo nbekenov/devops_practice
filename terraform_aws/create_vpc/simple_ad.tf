@@ -12,12 +12,8 @@ resource "aws_directory_service_directory" "sasdev_ad" {
   tags = {
     Name = "sas-uat-ad"
   }
-
-  provisioner "local-exec" {
-    command = "echo ${aws_directory_service_directory.sasdev_ad.dns_ip_addresses} >> dns_ip_addresses.txt"
-  }
 }
 
 output "dns_ip_addresses" {
-  value = [sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[0], sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[1], "AmazonProvidedDNS"]
+  value = aws_directory_service_directory.sasdev_ad.dns_ip_addresses
 }
