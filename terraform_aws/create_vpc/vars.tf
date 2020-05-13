@@ -34,3 +34,6 @@ variable "simple_ad_pass" {
 
 variable "domain_name" {
 }
+
+variable "t1a_ips_lst" {
+}
