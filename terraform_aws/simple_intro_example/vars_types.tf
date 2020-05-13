@@ -1,5 +1,5 @@
 variable "my_var" {
-  type    = "string"
+  type    = string
   default = "hellow world"
 }
 # refer to the variables
@@ -25,7 +25,7 @@ variable "my_lst" {
 
 variable "my_bool" {
   type    = bool
-  default = True
+  default = true
 }
 
 variable "my_num" {
