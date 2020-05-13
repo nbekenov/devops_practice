@@ -9,7 +9,7 @@ resource "aws_vpc" "sas_dev" {
   enable_classiclink             = "false"
   enable_classiclink_dns_support = "false"
   tags = {
-    Name = "sas_dev"
+    Name = "sas_uat"
   }
 }
 ###################
@@ -30,7 +30,7 @@ resource "aws_subnet" "sas-dev-publicsub-1" {
   availability_zone       = "us-east-1c"
 
   tags = {
-    Name = "sas_dev-public-us-east-1c"
+    Name = "sas-uat-public-us-east-1c"
   }
 }
 resource "aws_subnet" "sas-dev-publicsub-2" {
@@ -40,7 +40,7 @@ resource "aws_subnet" "sas-dev-publicsub-2" {
   availability_zone       = "us-east-1b"
 
   tags = {
-    Name = "sas_dev-public-us-east-1b"
+    Name = "sas-uat-public-us-east-1b"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_internet_gateway" "sas_dev-gw" {
   vpc_id = aws_vpc.sas_dev.id
 
   tags = {
-    Name = "sas_dev_gw"
+    Name = "sas_uat_gw"
   }
 }
 
@@ -66,7 +66,7 @@ resource "aws_route_table" "sas_dev-rt" {
   }
 
   tags = {
-    Name = "sas_dev-public-rt"
+    Name = "sas-uat-public-rt"
   }
 }
 ###################
@@ -87,7 +87,7 @@ resource "aws_route_table_association" "sas-dev-public-2-a" {
 ###################
 resource "aws_vpc_dhcp_options" "sasdev_dhcp" {
   domain_name         = var.dhcp_domain_name
-  domain_name_servers = aws_directory_service_directory.sasdev_ad.dns_ip_addresses
+  domain_name_servers = [sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[0], sort(aws_directory_service_directory.sasdev_ad.dns_ip_addresses)[1], "AmazonProvidedDNS"]
 
   tags = {
     Name = var.domain_name
