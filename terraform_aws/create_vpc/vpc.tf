@@ -1,4 +1,6 @@
-# internet VPC
+###################
+# VPC
+###################
 resource "aws_vpc" "sas_dev" {
   cidr_block                     = "10.230.48.0/24"
   instance_tenancy               = "default"
@@ -10,14 +12,17 @@ resource "aws_vpc" "sas_dev" {
     Name = "sas_dev"
   }
 }
-
+###################
 # add second CIDR
+###################
 resource "aws_vpc_ipv4_cidr_block_association" "secondary_cidr" {
   vpc_id     = aws_vpc.sas_dev.id
   cidr_block = "10.230.49.0/24"
 }
 
+###################
 # subnets
+###################
 resource "aws_subnet" "sas-dev-publicsub-1" {
   vpc_id                  = aws_vpc.sas_dev.id
   cidr_block              = "10.230.48.0/25"
@@ -39,7 +44,9 @@ resource "aws_subnet" "sas-dev-publicsub-2" {
   }
 }
 
+###################
 # internet gateway
+###################
 resource "aws_internet_gateway" "sas_dev-gw" {
   vpc_id = aws_vpc.sas_dev.id
 
@@ -48,8 +55,9 @@ resource "aws_internet_gateway" "sas_dev-gw" {
   }
 }
 
-
+###################
 # route tables
+###################
 resource "aws_route_table" "sas_dev-rt" {
   vpc_id = aws_vpc.sas_dev.id
   route {
@@ -58,11 +66,12 @@ resource "aws_route_table" "sas_dev-rt" {
   }
 
   tags = {
-    Name = "sas_dev-vpc-rt"
+    Name = "sas_dev-public-rt"
   }
 }
-
+###################
 # route public subnets association
+###################
 resource "aws_route_table_association" "sas-dev-public-1-a" {
   subnet_id      = aws_subnet.sas-dev-publicsub-1.id
   route_table_id = aws_route_table.sas_dev-rt.id
@@ -71,4 +80,24 @@ resource "aws_route_table_association" "sas-dev-public-1-a" {
 resource "aws_route_table_association" "sas-dev-public-2-a" {
   subnet_id      = aws_subnet.sas-dev-publicsub-2.id
   route_table_id = aws_route_table.sas_dev-rt.id
+}
+
+###################
+# DHCP Options Set
+###################
+resource "aws_vpc_dhcp_options" "sasdev_dhcp" {
+  domain_name         = var.dhcp_domain_name
+  domain_name_servers = aws_directory_service_directory.sasdev_ad.dns_ip_addresses
+
+  tags = {
+    Name = "cxloyaltydata.com"
+  }
+
+}
+###############################
+# DHCP Options Set Association
+###############################
+resource "aws_vpc_dhcp_options_association" "dhcp-association" {
+  vpc_id          = aws_vpc.sas_dev.id
+  dhcp_options_id = aws_vpc_dhcp_options.sasdev_dhcp.id
 }
