@@ -24,4 +24,5 @@ EOF
   provisioner "local-exec" {
     command = "aws sns subscribe --profile nurAutomation --topic-arn ${self.arn} --protocol email --notification-endpoint ${var.alarms_email}"
   }
+
 }
