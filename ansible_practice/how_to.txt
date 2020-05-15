@@ -1,0 +1,8 @@
+show all hosts from inventory.ini file
+> ansible -i inventory.ini --list-hosts all
+ping all hosts
+> ansible -m ping all
+run simple task 
+> ansible -m shell -a "uname" webservers:loadbalancers
+run playbook
+> ansible-playbook playbook/ping.yml 
