@@ -1,0 +1,9 @@
+# yum-update.yml
+
+---
+  - hosts: webservers:loadbalancers
+    become: true
+    become_user: root
+    tasks:
+      - name: update yum
+        yum: name=* state=latest

@@ -1,0 +1,19 @@
+# show-dir.yml
+
+---
+  - hosts: webservers
+    vars:
+      app_path: "/var/www/html"
+    become: true
+    tasks:
+      - name: see dir contents
+        command: ls -la {{ app_path }}
+        register: dir_contents
+
+      - name: debug dir contents
+        debug:
+          msg: "{{ dir_contents['stdout_lines'] }}"
+
+      - name: debug dir contents
+        debug:
+          msg: "{{ ansible_hostname }}"          
