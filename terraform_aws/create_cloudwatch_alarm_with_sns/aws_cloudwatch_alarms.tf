@@ -1,7 +1,7 @@
 
 resource "aws_cloudwatch_metric_alarm" "instance-health-check" {
-  count               = length(var.instance_id_lst)
-  alarm_name          = var.instance_name[count.index]
+  count               = length(var.instance_maps)
+  alarm_name          = format("health-check-%s", var.instance_maps[count.index][0])
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "StatusCheckFailed"
@@ -13,13 +13,13 @@ resource "aws_cloudwatch_metric_alarm" "instance-health-check" {
   alarm_actions       = ["${aws_sns_topic.alarm.arn}"]
 
   dimensions = {
-    InstanceId = var.instance_id_lst[count.index]
+    InstanceId = var.instance_maps[count.index][1]
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "cpu-utilization" {
   count               = length(var.instance_id_lst)
-  alarm_name          = "high-cpu-utilization-alarm"
+  alarm_name          = format("high-cpu-utilization-%s", var.instance_maps[count.index][0])
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
