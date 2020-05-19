@@ -1,0 +1,16 @@
+# sync-files.yml
+
+---
+  - hosts: cas_workes
+    become: true
+    tasks:
+      - name: create directory with mode setting example
+        file:
+          path: /tmp/devops_directory
+          state: directory
+          mode: "u=rw,g=wx,o=rwx"
+
+      - name:
+        synchronize:
+          src: /opt/adminscripts/ansible_scripts/scripts/
+          dest: /tmp/devops_directory
