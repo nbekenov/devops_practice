@@ -40,3 +40,9 @@ override.tf.json
 
 #ansible
 *.retry
+
+
+# ruby
+.bundle
+vendor
+.kitchen
