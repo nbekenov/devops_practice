@@ -1,0 +1,32 @@
+# put-crontab.yml
+
+---
+  - hosts: cas_worker1
+    become: true
+    tasks:
+    - name: add sas_viya_health_check into cron
+      cron:
+        name: "sas viya service monitoring"
+        user: "viyadep"
+        minute: "*/10"
+        hour: "*"
+        job: "/opt/sas/adminscripts/cnx_sup/bash_scripts/sas_viya_health_check.sh"
+        state: present
+
+    - name: add disk_space_monitor into cron
+      cron:
+        name: "disck space monitor"
+        user: "viyadep"
+        minute: "*/5"
+        hour: "*"
+        job: "/opt/sas/adminscripts/cnx_sup/resource_mon/disk_space_monitor.sh"
+        state: present
+
+    - name: add memoryUtilization_monitor into cron
+      cron:
+        name: "memory usage monitor"
+        user: "viyadep"
+        minute: "*/5"
+        hour: "*"
+        job: "/opt/sas/adminscripts/cnx_sup/resource_mon/memoryUtilization_monitor.sh"
+        state: present
