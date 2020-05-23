@@ -1,16 +1,16 @@
 # sync-files.yml
 
 ---
-  - hosts: cas_workes
+  - hosts: cas_worker1
     become: true
     tasks:
       - name: create directory with mode setting example
         file:
-          path: /tmp/devops_directory
+          path: /opt/sas/adminscripts/cnx_sup
           state: directory
           mode: "u=rw,g=wx,o=rwx"
 
       - name:
         synchronize:
-          src: /opt/adminscripts/ansible_scripts/scripts/
-          dest: /tmp/devops_directory
+          src: /opt/sas/adminscripts/cnx_sup/
+          dest: /opt/sas/adminscripts/cnx_sup/
