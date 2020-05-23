@@ -1,4 +1,5 @@
---- 
+CF template anatomy
+-------
 AWSTemplateFormatVersion: "version date"
 
 Description:
