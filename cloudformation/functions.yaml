@@ -1,0 +1,4 @@
+!Join[delimiter,[coma delimited list of values]]
+!Join[":",[a, b, c]] = "a:b:c"
+
+More examples : https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html
