@@ -3,6 +3,7 @@
 Resources:
   Ec2Instance:
     Type: AWS::EC2::Instance
+    UpdateReplacePolicy: Retain
     Properties:
       InstanceType: t2.micro
       ImageId: ami-467ca739 # Amazon Linux AMI in N.Virginia

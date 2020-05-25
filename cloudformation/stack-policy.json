@@ -1,0 +1,11 @@
+{
+    "Statement" : [{
+        "Effect" : "Deny",
+        "Action" : [
+            "Update:Replace",
+            "Update:Delete"
+        ],
+        "Principal": "*",
+        "Resource" : "LogicalResourceId/Ec2Instance"
+    }]
+}
