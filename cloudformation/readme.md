@@ -1,19 +1,23 @@
-# create stack
+## validate template
+aws --profile nurAutomation cloudformation validate-template \
+    --template-body file://ec2_simple_example.yaml 
+
+## create stack
 aws --profile nurAutomation cloudformation create-stack \
     --stack-name example \
     --template-body file://ec2_simple_example.yaml \
     --parameters file://parameters/single_instance.json
 
-# update stack
+## update stack
 aws --profile nurAutomation cloudformation update-stack \
     --stack-name example \
     --template-body file://ec2_simple_example.yaml
 
-# delete stack
+## delete stack
 aws --profile nurAutomation cloudformation delete-stack \
     --stack-name example
 
-# create change set aka dry run
+## create change set aka dry run
 aws --profile nurAutomation cloudformation create-change-set \
     --change-set-name changeset-1 \
     --stack-name example \
@@ -39,15 +43,15 @@ aws --profile nurAutomation cloudformation describe-change-set \
     --query 'Changes[*].ResourceChange.{Action:Action,Resource:ResourceType,ResourceId:LogicalResourceId,ReplacementNeeded:Replacement}' \
     --output table
 
-# prevent updates to Stack Resources
+## prevent updates to Stack Resources
 aws --profile nurAutomation cloudformation set-stack-policy \
     --stack-name example \
     --stack-policy-body file://stack-policy.json
 
-# apply change set
+## apply change set
 aws --profile nurAutomation cloudformation execute-change-set \
     --change-set-name changeset-1 \
     --stack-name example
 
-Testing
-https://workshop.quickstart.awspartner.com/70_testing/1_local_test.html
+
+* [Testing](https://workshop.quickstart.awspartner.com/70_testing/1_local_test.html)
