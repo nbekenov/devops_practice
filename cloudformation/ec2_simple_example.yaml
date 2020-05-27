@@ -1,26 +1,53 @@
 # create ec2 instance
+AWSTemplateFormatVersion: "2010-09-09"
 
+Description:
+  "Simple example how to create ec2 instance"
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-1853ac65
+    us-west-1:
+      AMI: ami-bf5540df
+    eu-west-1:
+      AMI: ami-3bfab942
+    ap-southeast-1:
+      AMI: ami-e2adf99e
+    ap-southeast-2:
+      AMI: ami-43874721
+Parameters:
+  NameOfService:
+    Description: "The name of the service this stack is to be used for."
+    Type: String
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access into the server
+    Type: AWS::EC2::KeyPair::KeyName      
 Resources:
   Ec2Instance:
     Type: AWS::EC2::Instance
-    UpdateReplacePolicy: Retain
+    #UpdateReplacePolicy: Retain
     Properties:
       InstanceType: t2.micro
-      ImageId: ami-467ca739 # Amazon Linux AMI in N.Virginia
+      ImageId: !FindInMap [RegionMap, !Ref "AWS::Region", AMI] 
+      KeyName: !Ref KeyName  
       SecurityGroups: 
         - !Ref MySecurityGroup       
       Tags:
         - Key: Name
-          Value: !Join
-            - ""
-            - - "Managed by Cloudformation for "
-              - !Ref AWS::Region           
+          Value: !Ref NameOfService   
   MySecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: Enable SSH access via port 22
+      GroupDescription: Enable SSH via port 22
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
           CidrIp: 0.0.0.0/0
+Outputs: 
+  TestOutput: 
+    Description: Return the name of the AMI ID that matches the region and environment type keys
+    Value: !FindInMap [RegionMap, !Ref "AWS::Region", AMI]
+  InstanceDns:
+    Description: The instance Dns
+    Value: !GetAtt Ec2Instance.PublicDnsName         
