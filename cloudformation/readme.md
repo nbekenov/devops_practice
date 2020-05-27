@@ -6,12 +6,17 @@ aws --profile nurAutomation cloudformation validate-template \
 aws --profile nurAutomation cloudformation create-stack \
     --stack-name example \
     --template-body file://ec2_simple_example.yaml \
-    --parameters file://parameters/single_instance.json
+    --parameters file://params.json
 
 ## update stack
 aws --profile nurAutomation cloudformation update-stack \
     --stack-name example \
-    --template-body file://ec2_simple_example.yaml
+    --template-body file://ec2_simple_example.yaml \
+    --parameters file://params2.json
+## describe stack
+aws --profile nurAutomation cloudformation describe-stacks \
+    --stack-name example \
+    --query "Stacks[0].Outputs[0].OutputValue"
 
 ## delete stack
 aws --profile nurAutomation cloudformation delete-stack \
@@ -21,7 +26,8 @@ aws --profile nurAutomation cloudformation delete-stack \
 aws --profile nurAutomation cloudformation create-change-set \
     --change-set-name changeset-1 \
     --stack-name example \
-    --template-body file://ec2_simple_example.yaml 
+    --template-body file://ec2_simple_example.yaml \
+    --parameters file://params2.json
 
 ## for not existing stack need to add --change-set-type CREATE
 aws --profile nurAutomation cloudformation create-change-set \
@@ -36,6 +42,7 @@ aws --profile nurAutomation cloudformation describe-change-set \
     --change-set-name changeset-1 \
     --stack-name example \
     --query "Changes[].ResourceChange"
+
 ## describe changeset in a nicely way
 aws --profile nurAutomation cloudformation describe-change-set \
     --change-set-name changeset-1 \
