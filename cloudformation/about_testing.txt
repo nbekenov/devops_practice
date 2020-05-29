@@ -1,0 +1,19 @@
+For linting (checking CloudFormation-template code for syntax/grammar correctness), 
+you can use the ValidateTemplate API to check basic template structure, 
+and the CreateChangeSet API to verify your Resource properties in more detail.
+
+Note that ValidateTemplate performs
+ a much more thorough check than a simple JSON/YAML syntax checker- it validates correct Template Anatomy, 
+ correct syntax/usage of Intrinsic Functions, and correct resolution of all Ref values.
+ValidateTemplate checks basic CloudFormation syntax, 
+but doesn't verify your template's Resources against specific property schemas.
+ For checking the structure of your template's Parameters,
+  Resources and Properties against AWS Resource types, CreateChangeSet
+   should return an error if any parameters or resource properties are not well-formed.
+
+Unit testing
+Performing unit testing first requires an answer to the question: what is the smallest self-contained unit of functionality that can/should be tested? For CloudFormation, I believe that the smallest testable unit is the Resource.
+
+The official AWS Resource Types are supported/maintained by AWS (and are proprietary implementations anyway) so don't require any additional unit tests written by end-user developers.
+
+However, your own Custom Resources could and should be unit-tested. This can be done using a suitable testing framework in the implementation's own language (e.g., for Lambda-backed Custom Resources, perhaps a library like lambda-tester would be a good starting point).   
