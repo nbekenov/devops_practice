@@ -20,3 +20,6 @@ apply stash changes
 
 cansel merge
 > git merge --abort
+create branch
+> git branch -c first-branch
+> git checkout first-branch
