@@ -3,3 +3,11 @@ show graph
 
 create and switch to branch
 > git checkout -b new-branch
+
+save changes from your local folder before checkout
+> git stash
+
+List stash changes
+> git stash list
+apply stash changes
+> git stash pop
