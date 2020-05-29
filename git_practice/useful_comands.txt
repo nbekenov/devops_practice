@@ -1,2 +1,5 @@
 show graph
 > git log --oneline --all --graph
+
+create and switch to branch
+> git checkout -b new-branch
