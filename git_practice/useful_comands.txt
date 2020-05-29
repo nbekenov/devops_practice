@@ -16,3 +16,7 @@ List stash changes
 > git stash list
 apply stash changes
 > git stash pop
+
+
+cansel merge
+> git merge --abort
