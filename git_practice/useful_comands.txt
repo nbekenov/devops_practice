@@ -1,2 +1,6 @@
 show graph
 > git log --oneline --all --graph
+
+create branch
+> git branch -c first-branch
+> git checkout first-branch
