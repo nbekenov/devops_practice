@@ -1,2 +1,8 @@
 show graph
 > git log --oneline --all --graph
+
+show diff between commits
+> git diff
+
+show a single commit
+> git show 
