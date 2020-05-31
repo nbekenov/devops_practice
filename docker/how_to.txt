@@ -4,6 +4,8 @@
 # build image from current folder
 > docker image build -t test1 .
 
+# list images
+> docker image ls
 > docker image inspect test1
 
 # remove image
@@ -41,3 +43,36 @@
 
 # remove all stopped containers
 > docker container prune
+
+# moint source code folder to a runing container
+> docker container run   -it --rm  \
+    --name web \
+    -p 5000:5000 \
+    -e FLASK_APP=app.py -e FLASK_DEBUG=1 \
+    -v $PWD:/app \
+    web:1.0
+
+# connect to a runing container    
+> docker container exec -it web1 /bin/sh
+
+
+# link containers with docker networks
+LAN - local area network
+WAN - wide area network
+
+> docker network ls
+> docker network inspect <network name>
+
+# check the  ip adress of the container and ping another ip
+> docker exec redis ifconfig
+> docker exec redis ping 172.17.0.2
+
+# create network
+> docker network create --driver bridge mynetwork
+> docker container run   -it --rm  \
+    --name web \
+    -p 5000:5000 \
+    --net mynetwork
+    -e FLASK_APP=app.py -e FLASK_DEBUG=1 \
+    -v $PWD:/app \
+    web:1.0
