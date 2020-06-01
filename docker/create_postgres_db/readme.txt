@@ -29,3 +29,10 @@ docker run -d \
     -p 80:80 \
     --net pg_network \
     dpage/pgadmin4
+
+
+
+# Create all above using docker-compose
+docker-compose up --build -d
+# check
+docker-compose ps
