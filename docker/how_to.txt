@@ -69,10 +69,25 @@ WAN - wide area network
 
 # create network
 > docker network create --driver bridge mynetwork
-> docker container run   -it --rm  \
+> docker container run   -itd --rm  \
     --name web \
     -p 5000:5000 \
-    --net mynetwork
+    --net mynetwork \
     -e FLASK_APP=app.py -e FLASK_DEBUG=1 \
     -v $PWD:/app \
     web:1.0
+
+> docker container run --rm -itd -p 6379:6379 --net mynetwork  -v web_redis:/data --name redis redis:3.2-alpine    
+
+VOLUMES:
+IMPORTATNT!
+-- Volumes are stored in a part of the host filesystem which is managed by Docker (/var/lib/docker/volumes/ on Linux). Non-Docker processes should not modify this part of the filesystem. Volumes are the best way to persist data in Docker.
+# create named volume
+> docker volume create web_redis
+> docker container run --rm -itd -p 6379:6379 --net mynetwork  -v web_redis:/data --name redis redis:3.2-alpine
+
+-- Bind mounts may be stored anywhere on the host system. They may even be important system files or directories. Non-Docker processes on the Docker host or a Docker container can modify them at any time.
+mkdir redis_data
+docker container run --rm -itd -p 6379:6379 --net mynetwork  -v $PWD/redis_data:/data --name redis redis:3.2-alpine
+
+tmpfs mounts are stored in the host system’s memory only, and are never written to the host system’s filesystem.
