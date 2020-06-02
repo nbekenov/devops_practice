@@ -20,6 +20,11 @@ apply stash changes
 
 cansel merge
 > git merge --abort
+> git merge --no-commit --no-ff <branch name>
+
+show branched which not merged into master
+> git branch --no-merged master
+
 create branch
 > git branch -c first-branch
 > git checkout first-branch
