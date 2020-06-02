@@ -37,6 +37,7 @@
 
 # check resource stats
 > docker container stats
+docker system df
 
 # remove container
 > docker container rm <container name>
@@ -75,7 +76,7 @@ WAN - wide area network
     --net mynetwork \
     -e FLASK_APP=app.py -e FLASK_DEBUG=1 \
     -v $PWD:/app \
-    web:1.0
+    web2
 
 > docker container run --rm -itd -p 6379:6379 --net mynetwork  -v web_redis:/data --name redis redis:3.2-alpine    
 
@@ -90,4 +91,23 @@ IMPORTATNT!
 mkdir redis_data
 docker container run --rm -itd -p 6379:6379 --net mynetwork  -v $PWD/redis_data:/data --name redis redis:3.2-alpine
 
-tmpfs mounts are stored in the host system’s memory only, and are never written to the host system’s filesystem.
+-- tmpfs mounts are stored in the host system’s memory only, and are never written to the host system’s filesystem.
+
+
+Using a Container as a Shared Data Volume
+--volumes-from <data container name>
+Note: This will work whether or not the target container is running. Docker volumes are never deleted, and persist even after the container has been stopped.
+> docker run -it -v /shared-data --name data-storage centos /bin/bash
+echo "Hello from the data-storage container." >> /shared-data/data-storage-hello.txt
+> docker run -it --name app --volumes-from data-storage python /bin/bash
+
+Mounting a Volume as Read-Only
+docker run -v /directory:/path:ro
+
+
+An ENTRYPOINT allows you to configure a container that will run as an executable.
+ENTRYPOINT ["executable", "param1", "param2"]
+
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
