@@ -1,0 +1,60 @@
+create a self hosted blog through a platform, such as WordPress
+useful links:
+https://aws.amazon.com/getting-started/hands-on/deploy-wordpress-with-amazon-rds/
+https://aws.amazon.com/getting-started/hands-on/launch-a-wordpress-website/
+https://www.udacity.com/course/cloud-dev-ops-nanodegree--nd9991
+https://d20vrrgs8k4bvw.cloudfront.net/documents/en-US/Cloud+DevOps+Nanodegree+program+Syllabus.pdf
+
+
+Create web app using Django 
+    - web app should have domain name and SSL cert
+    - static files should be in S3
+
+put scripts into codecommit or github
+script should include the tests
+
+after push or pull into master
+Start CodeBuild to build and test scripts
+
+Disaster backup
+https://aws.amazon.com/blogs/aws/create-a-backup-website-using-route-53-dns-failover-and-s3-website-hosting/
+
+
+1. use CloudFormation template to create infrastructure
+ - vpc
+ - security groups
+ - ec2 instance to install and host the WordPress application
+ - Amazon RDS for MySQL
+ - route 53 domain and etc
+ - s3 bucket
+ ...
+
+Do not forget to check the cost
+Goal to create 
+and deploys WordPress on to Amazon EC2 instances in an Auto Scaling group 
+with a multi-AZ Amazon RDS database instance for storage
+
+2. use ansible or something similar to 
+install
+-- Apache Web Server
+-- Install PHP
+
+Maybe we need to consider Django
+
+3. configure bkp
+
+4. configure monitoring
+Build CI/CD Pipelines, Monitoring & Logging
+
+CodeCommit to store all application scripts
+ - Trigger Lambda function when there is pull request
+ - SNS notification when there is push to mater
+
+Codebuild to build and test
+ - Use CloudWatch events to detect any failed builds
+ - use cloudWatch alarm in case we reached thresholds of failures
+
+
+
+5. test load 
+dedos attack
