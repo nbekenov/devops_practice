@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  postgres_db:
+    image: 'postgres'
+    env_file:
+      - '.env.pg10'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data'
+  
+  web:
+    build: .
+    env_file:
+      - '.env.web'
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - 'postgres_db'
+
+  pg_admin:
+    image: 'dpage/pgadmin4'
+    depends_on:
+      - 'postgres_db'    
+    env_file:
+      - '.env.pg_admin'
+    ports:
+      - '80:80'
+
+volumes:
+  postgres_data:
