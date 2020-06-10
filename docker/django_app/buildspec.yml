@@ -1,0 +1,32 @@
+version: 0.2
+
+env:
+  variables:
+    PYTHONDONTWRITEBYTECODE: 1
+    PYTHONUNBUFFERED: 1
+    POSTGRES_DB: "xxxx"
+    POSTGRES_USER: "xxxx"
+    POSTGRES_PASSWORD: "xxxx"
+    SQL_ENGINE: "django.db.backends.postgresql"
+
+phases: 
+    install:
+        runtime-versions:
+            python: 3.7
+        commands:
+            - docker pull postgres:latest
+            - pip install -r requirements.txt
+    pre_build:
+        commands: 
+            - echo "we are in the pre build phase"
+            - docker run -e POSTGRES_PASSWORD -e POSTGRES_USER -e POSTGRES_DB -d -p 5432:5432 postgres
+    build:
+        commands:
+            - echo "we are in the build block"
+            - python manage.py migrate
+            - echo "we will run some tests"
+            - pytest test/first_test.py 
+    post_build:
+        commands:
+            - echo Build completed on `date`
+            
