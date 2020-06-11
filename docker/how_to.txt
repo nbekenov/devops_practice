@@ -111,3 +111,10 @@ ENTRYPOINT ["executable", "param1", "param2"]
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+
+docker-compose down -v
+docker-compose up -d --build
+docker-compose exec web python manage.py migrate --noinput
+docker-compose exec web python manage.py createsuperuser
