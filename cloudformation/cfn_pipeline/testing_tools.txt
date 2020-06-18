@@ -1,0 +1,12 @@
+1. cfn-nag  - security checks and advices
+brew install ruby brew-gem
+brew gem install cfn-nag
+
+2. liniting
+pip install cfn-lint
+or 
+brew install cfn-lint
+
+3.taskcat
+pip install taskcat --user
+taskcat test run
