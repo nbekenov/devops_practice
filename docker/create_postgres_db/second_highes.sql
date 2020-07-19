@@ -53,3 +53,28 @@ WHERE
                 AND e1.DepartmentId = e2.DepartmentId
         )
 ;
+
+
+select  
+ROUND(
+    ifnull(
+    (
+        select 
+                count(*) as number_of_acceptance
+            from
+            (
+                select distinct requester_id, accepter_id
+                from request_accepted
+            ) a
+    )    
+    /(
+        select 
+            count(*) as number_of_requests
+        from
+        (
+            select distinct sender_id, send_to_id
+            from friend_request
+        ) b
+    ), 
+  0),
+2) as accept_rate;   
